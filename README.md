@@ -5,7 +5,7 @@
   - [安装或引入](#安装或引入)
   - [初始化代码](#初始化代码)
 - [合约](#合约)
-  - [合约初始化](#合约初始化)
+  - [合约初始化及接口调用](#合约初始化及接口调用)
   - [合约API](#合约API)
   - [StakingContract](#StakingContract)
     - [staking](#staking-发起质押)
@@ -104,6 +104,16 @@ web3.stakingContract.staking(...params).then(res=>{
 ```
 ### 合约API
 
+#### 接口说明
+
+以下合约接口未列出返回参数的即为交易接口，其它为查询接口
+交易接口统一返回参数形式如下：
+
+| 参数名 |类型|属性|参数说明|
+| :------: |:------: |:------: | :------: |
+|hash |String |必选| 交易hash|
+
+
 #### StakingContract
 
 ##### Staking-发起质押
@@ -160,9 +170,32 @@ web3.stakingContract.staking(...params).then(res=>{
 
 ##### GetStakingInfo-获取质押信息
 
+入参：
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
 |nodeId|String  |必选|被质押的节点Id|
+
+返参： 列表
+|名称|类型|说明|
+|---|---|---|
+|NodeId|64bytes|被质押的节点Id(也叫候选人的节点Id)|
+|StakingAddress|20bytes|发起质押时使用的账户(后续操作质押信息只能用这个账户，撤销质押时，von会被退回该账户或者该账户的锁仓信息中)|
+|BenefitAddress|20bytes|用于接受出块奖励和质押奖励的收益账户|
+|StakingTxIndex|uint32(4bytes)|发起质押时的交易索引|
+|ProgramVersion|uint32(4bytes)|被质押节点的PlatON进程的真实版本号(获取版本号的接口由治理提供)|
+|Status|uint32(4bytes)|候选人的状态(状态是根据uint32的32bit来放置的，可同时存在多个状态，值为多个同时存在的状态值相加0: 节点可用 (32个bit全为0)； 1: 节点不可用 (只有最后一bit为1)； 2： 节点出块率低(只有倒数第二bit为1)； 4： 节点的von不足最低质押门槛(只有倒数第三bit为1)； 8：节点被举报双签(只有倒数第四bit为1))|
+|StakingEpoch|uint32(4bytes)|当前变更质押金额时的结算周期|
+|StakingBlockNum|uint64(8bytes)|发起质押时的区块高度|
+|Shares|*big.Int(bytes)|当前候选人总共质押加被委托的von数目|
+|Released|*big.Int(bytes)|发起质押账户的自由金额的锁定期质押的von|
+|ReleasedHes|*big.Int(bytes)|发起质押账户的自由金额的犹豫期质押的von|
+|RestrictingPlan|*big.Int(bytes)|发起质押账户的锁仓金额的锁定期质押的von|
+|RestrictingPlanHes|*big.Int(bytes)|发起质押账户的锁仓金额的犹豫期质押的von|
+|ExternalId|string|外部Id(有长度限制，给第三方拉取节点描述的Id)|
+|NodeName|string|被质押节点的名称(有长度限制，表示该节点的名称)|
+|Website|string|节点的第三方主页(有长度限制，表示该节点的主页)|
+|Details|string|节点的描述(有长度限制，表示该节点的描述)|
+
 
 
 #### NodeContract
@@ -369,3 +402,10 @@ web3.stakingContract.staking(...params).then(res=>{
 |typ|String  |必选|代表双签类型, 1：prepare，2：viewChange|
 |addr|String  |必选|举报的节点地址|
 |blockNumber|Number  |必选|多签的块高|
+
+### web3
+
+----
+
+### web3 eth相关 (标准JSON RPC )
+- api的使用请参考[web3j github](https://github.com/ethereum/wiki/wiki/JavaScript-API)
