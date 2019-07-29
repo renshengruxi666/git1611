@@ -171,11 +171,13 @@ web3.stakingContract.staking(...params).then(res=>{
 ##### GetStakingInfo-获取质押信息
 
 入参：
+
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
 |nodeId|String  |必选|被质押的节点Id|
 
 返参： 列表
+
 |名称|类型|说明|
 |---|---|---|
 |NodeId|64bytes|被质押的节点Id(也叫候选人的节点Id)|
