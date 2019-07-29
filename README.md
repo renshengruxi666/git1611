@@ -8,21 +8,39 @@
   - [合约初始化](#合约初始化)
   - [合约API](#合约API)
   - [StakingContract](#StakingContract)
-    - [staking](#staking)
-    - [updateStakingInfo](#updateStakingInfo)
-    - [unStaking](#unStaking)
-    - [addStaking](#addStaking)
-    - [GetStakingInfo](#GetStakingInfo)
-  - [内置合约](#内置合约)
-    - [CandidateContract](#CandidateContract)
-    - [TicketContract](#TicketContract)
+    - [staking](#staking-发起质押)
+    - [updateStakingInfo](#updateStakingInfo-修改质押信息)
+    - [unStaking](#unStaking-撤销质押)
+    - [addStaking](#addStaking-增持质押)
+    - [GetStakingInfo](#GetStakingInfo-获取质押信息)
+  - [NodeContract](#NodeContract)
+    - [GetVerifierList](#GetVerifierList-查询当前结算周期的验证人队列)
+    - [getValidatorList](#getValidatorList-查询当前共识周期的验证人列表)
+    - [getCandidateList](#getCandidateList-查询所有实时的候选人列表)
+  - [DelegateContract](#DelegateContract)
+    - [delegate](#delegate-发起委托)
+    - [withdrewDelegate](#withdrewDelegate-撤销委托)
+    - [GetRelatedListByDelAddr](#GetRelatedListByDelAddr-查询当前账户地址所委托的节点的NodeID和质押Id)
+    - [GetDelegateInfo](#GetDelegateInfo-查询当前单个委托信息)
+  - [ProposalContract](#ProposalContract)
+    - [submitText](#submitText-提交文本提案)
+    - [submitParam](#submitParam-提交参数提案)
+    - [submitVersion](#submitVersion-提交升级提案)
+    - [vote](#vote-给提案投票)
+    - [declareVersion](#declareVersion-版本声明)
+    - [getProposal](#getProposal-查询提案)
+    - [listProposal](#listProposal-查询提案列表)
+    - [getTallyResult](#getTallyResult-查询提案结果)
+    - [getActiveVersion](#getActiveVersion-查询节点的链生效版本)
+    - [getProgramVersion](#getProgramVersion-查询节点代码版本)
+  - [RestrictingPlanContract](#RestrictingPlanContract)
+    - [createRestrictingPlan](#createRestrictingPlan-创建锁仓计划)
+    - [getRestrictingInfo](#getRestrictingInfo-获取锁仓信息)
+  - [SlashContract](#SlashContract)
+    - [reportDoubleSign](#reportDoubleSign-举报多签)
+    - [checkDuplicateSign](#checkDuplicateSign-查询接口是否已经被举报多签)
 - [web3](#web3)
   - [web3 eth相关 (标准JSON RPC )](#web3-eth相关-标准json-rpc)
-  - [新增的接口](#新增的接口)
-    - [contract](#contract)
-      - [getPlatONData](#contract.getPlatONData)
-      - [decodePlatONCall](#contract.decodePlatONCall)
-      - [decodePlatONLog](#contract.decodePlatONLog)
 
 ## 概览
 > Javascript SDK是PlatON面向js开发者，提供的PlatON公链的js开发工具包
@@ -88,7 +106,7 @@ web3.stakingContract.staking(...params).then(res=>{
 
 #### StakingContract
 
-##### Staking
+##### Staking-发起质押
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
@@ -105,7 +123,7 @@ web3.stakingContract.staking(...params).then(res=>{
 |amount|Number  |必选|质押的von|
 |programVersion|Number  |必选|程序的真实版本，治理rpc获取|
 
-##### updateStakingInfo
+##### updateStakingInfo-修改质押信息
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
@@ -120,7 +138,7 @@ web3.stakingContract.staking(...params).then(res=>{
 |website|String  |必选|节点的第三方主页(有长度限制，表示该节点的主页)|
 |details|String  |必选|节点的描述(有长度限制，表示该节点的描述)|
 
-##### unStaking
+##### unStaking-撤销质押
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
@@ -129,7 +147,7 @@ web3.stakingContract.staking(...params).then(res=>{
 |value|Number  |必选|发送交易的金额|
 |nodeId|String  |必选|被质押的节点Id|
 
-##### addStaking
+##### addStaking-增持质押
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
@@ -140,7 +158,7 @@ web3.stakingContract.staking(...params).then(res=>{
 |typ|Number  |必选|表示使用账户自由金额还是账户的锁仓金额，0: 自由金额； 1: 锁仓金额|
 |amount|Number  |必选|质押的von|
 
-##### GetStakingInfo
+##### GetStakingInfo-获取质押信息
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
@@ -149,19 +167,19 @@ web3.stakingContract.staking(...params).then(res=>{
 
 #### NodeContract
 
-##### GetVerifierList
+##### GetVerifierList-查询当前结算周期的验证人队列
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
 无
 
-##### getValidatorList
+##### getValidatorList-查询当前共识周期的验证人列表
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
 无
 
-##### getCandidateList
+##### getCandidateList-查询所有实时的候选人列表
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
@@ -170,7 +188,7 @@ web3.stakingContract.staking(...params).then(res=>{
 
 #### DelegateContract
 
-##### delegate
+##### delegate-发起委托
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
@@ -181,7 +199,7 @@ web3.stakingContract.staking(...params).then(res=>{
 |nodeId|String  |必选|委托的节点Id|
 |amount|Number  |必选|委托的金额|
 
-##### withdrewDelegate
+##### withdrewDelegate-撤销委托
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
@@ -192,13 +210,13 @@ web3.stakingContract.staking(...params).then(res=>{
 |nodeId|String  |必选|委托的节点Id|
 |amount|Number  |必选|减持委托的金额|
 
-##### GetRelatedListByDelAddr
+##### GetRelatedListByDelAddr-查询当前账户地址所委托的节点的NodeID和质押Id
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
 |addr|String  |必选|委托人的账户地址|
 
-##### GetDelegateInfo
+##### GetDelegateInfo-查询当前单个委托信息
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
@@ -209,7 +227,7 @@ web3.stakingContract.staking(...params).then(res=>{
 
 #### ProposalContract
 
-##### submitText
+##### submitText-提交文本提案
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
@@ -223,7 +241,7 @@ web3.stakingContract.staking(...params).then(res=>{
 |url|String  |必选|提案URL|
 |endVotingBlock|Number  |必选|提案投票截止块高|
 
-##### submitParam
+##### submitParam-提交参数提案
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
@@ -240,7 +258,7 @@ web3.stakingContract.staking(...params).then(res=>{
 |currentValue|String  |必选|当前值|
 |newValue|Number  |必选|新的值|
 
-##### submitVersion
+##### submitVersion-提交升级提案
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
@@ -256,7 +274,7 @@ web3.stakingContract.staking(...params).then(res=>{
 |endVotingBlock|Number  |必选|提案投票截止块高|
 |activeBlock|String  |必选|生效块高|
 
-##### vote
+##### vote-给提案投票
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
@@ -268,7 +286,7 @@ web3.stakingContract.staking(...params).then(res=>{
 |option|String  |必选|投票选项|
 |programVersion|Number  |必选|节点代码版本|
 
-##### declareVersion
+##### declareVersion-版本声明
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
@@ -278,36 +296,36 @@ web3.stakingContract.staking(...params).then(res=>{
 |activeNode|String  |必选|声明的节点，只能是验证人/候选人|
 |version|String  |必选|声明的版本|
 
-##### getProposal
+##### getProposal-查询提案
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
 |proposalID |String |必选| 提案ID|
 
-##### listProposal
+##### listProposal-查询提案列表
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
 无
 
-##### getTallyResult
+##### getTallyResult-查询提案结果
 
 | 参数名 |类型|属性|参数说明|
 |proposalID |String |必选| 提案ID|
 
-##### getActiveVersion
+##### getActiveVersion-查询节点的链生效版本
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
 无
 
-##### getProgramVersion
+##### getProgramVersion-查询节点代码版本
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
 无
 
-##### listParam
+##### listParam-查询可治理参数列表
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
@@ -316,7 +334,7 @@ web3.stakingContract.staking(...params).then(res=>{
 
 #### RestrictingPlanContract
 
-##### createRestrictingPlan
+##### createRestrictingPlan-创建锁仓计划
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
@@ -326,7 +344,7 @@ web3.stakingContract.staking(...params).then(res=>{
 |account|String  |必选|锁仓释放到账账户|
 |Plan|Array  |必选|[{Epoch:Number,Amount:Number}],(Epoch：表示结算周期的倍数。Amount：表示目标区块上待释放的金额|
 
-##### getRestrictingInfo
+##### getRestrictingInfo-获取锁仓信息
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
@@ -335,7 +353,7 @@ web3.stakingContract.staking(...params).then(res=>{
 
 #### SlashContract
 
-##### reportDoubleSign
+##### reportDoubleSign-举报多签
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
@@ -344,7 +362,7 @@ web3.stakingContract.staking(...params).then(res=>{
 |value|Number  |必选|发送交易的金额|
 |data|String  |必选|证据的json值|
 
-##### checkDuplicateSign
+##### checkDuplicateSign-查询接口是否已经被举报多签
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
