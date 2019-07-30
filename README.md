@@ -204,21 +204,86 @@ web3.stakingContract.staking(...params).then(res=>{
 
 ##### GetVerifierList-查询当前结算周期的验证人队列
 
+入参：
+
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
 无
+
+返参： 列表
+
+|名称|类型|说明|
+|---|---|---|
+|NodeId|64bytes|被质押的节点Id(也叫候选人的节点Id)|
+|StakingAddress|20bytes|发起质押时使用的账户(后续操作质押信息只能用这个账户，撤销质押时，von会被退回该账户或者该账户的锁仓信息中)|
+|BenefitAddress|20bytes|用于接受出块奖励和质押奖励的收益账户|
+|StakingTxIndex|uint32(4bytes)|发起质押时的交易索引|
+|ProgramVersion|uint32|被质押节点的PlatON进程的真实版本号(获取版本号的接口由治理提供)|
+|StakingBlockNum|uint64(8bytes)|发起质押时的区块高度|
+|Shares|*big.Int(bytes)|当前候选人总共质押加被委托的von数目|
+|ExternalId|string|外部Id(有长度限制，给第三方拉取节点描述的Id)|
+|NodeName|string|被质押节点的名称(有长度限制，表示该节点的名称)|
+|Website|string|节点的第三方主页(有长度限制，表示该节点的主页)|
+|Details|string|节点的描述(有长度限制，表示该节点的描述)|
+|ValidatorTerm|uint32(4bytes)|验证人的任期(在结算周期的101个验证人快照中永远是0，只有在共识轮的验证人时才会被有值，刚被选出来时也是0，继续留任时则+1)|
+
 
 ##### getValidatorList-查询当前共识周期的验证人列表
 
+入参：
+
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
 无
+
+返参： 列表
+
+|名称|类型|说明|
+|---|---|---|
+|NodeId|64bytes|被质押的节点Id(也叫候选人的节点Id)|
+|StakingAddress|20bytes|发起质押时使用的账户(后续操作质押信息只能用这个账户，撤销质押时，von会被退回该账户或者该账户的锁仓信息中)|
+|BenefitAddress|20bytes|用于接受出块奖励和质押奖励的收益账户|
+|StakingTxIndex|uint32(4bytes)|发起质押时的交易索引|
+|ProgramVersion|uint32(4bytes)|被质押节点的PlatON进程的真实版本号(获取版本号的接口由治理提供)|
+|StakingBlockNum|uint64(8bytes)|发起质押时的区块高度|
+|Shares|*big.Int(bytes)|当前候选人总共质押加被委托的von数目|
+|ExternalId|string|外部Id(有长度限制，给第三方拉取节点描述的Id)|
+|NodeName|string|被质押节点的名称(有长度限制，表示该节点的名称)|
+|Website|string|节点的第三方主页(有长度限制，表示该节点的主页)|
+|Details|string|节点的描述(有长度限制，表示该节点的描述)|
+|ValidatorTerm|uint32(4bytes)|验证人的任期(在结算周期的101个验证人快照中永远是0，只有在共识轮的验证人时才会被有值，刚被选出来时也是0，继续留任时则+1)|
+
 
 ##### getCandidateList-查询所有实时的候选人列表
 
+入参：
+
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
 无
+
+返参： 列表
+
+|名称|类型|说明|
+|---|---|---|
+|NodeId|64bytes|被质押的节点Id(也叫候选人的节点Id)|
+|StakingAddress|20bytes|发起质押时使用的账户(后续操作质押信息只能用这个账户，撤销质押时，von会被退回该账户或者该账户的锁仓信息中)|
+|BenefitAddress|20bytes|用于接受出块奖励和质押奖励的收益账户|
+|StakingTxIndex|uint32(4bytes)|发起质押时的交易索引|
+|ProgramVersion|uint32(4bytes)|被质押节点的PlatON进程的真实版本号(获取版本号的接口由治理提供)|
+|Status|uint32(4bytes)|候选人的状态(状态是根据uint32的32bit来放置的，可同时存在多个状态，值为多个同时存在的状态值相加0: 节点可用 (32个bit全为0)； 1: 节点不可用 (只有最后一bit为1)； 2： 节点出块率低(只有倒数第二bit为1)； 4： 节点的von不足最低质押门槛(只有倒数第三bit为1)； 8：节点被举报双签(只有倒数第四bit为1))|
+|StakingEpoch|uint32(4bytes)|当前变更质押金额时的结算周期|
+|StakingBlockNum|uint64(8bytes)|发起质押时的区块高度|
+|Shares|*big.Int(bytes)|当前候选人总共质押加被委托的von数目|
+|Released|*big.Int(bytes)|发起质押账户的自由金额的锁定期质押的von|
+|ReleasedHes|*big.Int(bytes)|发起质押账户的自由金额的犹豫期质押的von|
+|RestrictingPlan|*big.Int(bytes)|发起质押账户的锁仓金额的锁定期质押的von|
+|RestrictingPlanHes|*big.Int(bytes)|发起质押账户的锁仓金额的犹豫期质押的von|
+|ExternalId|string|外部Id(有长度限制，给第三方拉取节点描述的Id)|
+|NodeName|string|被质押节点的名称(有长度限制，表示该节点的名称)|
+|Website|string|节点的第三方主页(有长度限制，表示该节点的主页)|
+|Details|string|节点的描述(有长度限制，表示该节点的描述)|
+
 
 
 #### DelegateContract
@@ -247,17 +312,44 @@ web3.stakingContract.staking(...params).then(res=>{
 
 ##### GetRelatedListByDelAddr-查询当前账户地址所委托的节点的NodeID和质押Id
 
+入参：
+
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
 |addr|String  |必选|委托人的账户地址|
 
+返参： 列表
+
+|名称|类型|说明|
+|---|---|---|
+|Addr|20bytes|验证人节点的地址|
+|NodeId|64bytes|验证人的节点Id|
+|StakingBlockNum|uint64(8bytes)|发起质押时的区块高度|
+
+
 ##### GetDelegateInfo-查询当前单个委托信息
+
+入参：
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
 |stakingBlockNum|Number  |必选|发起质押时的区块高度|
 |delAddr|String  |必选|委托人的账户地址|
 |nodeId|String  |必选|验证人的节点Id|
+
+返参： 列表
+
+|名称|类型|说明|
+|---|---|---|
+|Addr|20bytes|委托人的账户地址|
+|NodeId|64bytes|验证人的节点Id|
+|StakingBlockNum|uint64(8bytes)|发起质押时的区块高度|
+|DelegateEpoch|uint32(4bytes)|最近一次对该候选人发起的委托时的结算周期|
+|Released|*big.Int(bytes)|发起委托账户的自由金额的锁定期委托的von|
+|ReleasedHes|*big.Int(bytes)|发起委托账户的自由金额的犹豫期委托的von|
+|RestrictingPlan|*big.Int(bytes)|发起委托账户的锁仓金额的锁定期委托的von|
+|RestrictingPlanHes|*big.Int(bytes)|发起委托账户的锁仓金额的犹豫期委托的von|
+|Reduction|*big.Int(bytes)|处于撤销计划中的von|
 
 
 #### ProposalContract
@@ -333,38 +425,87 @@ web3.stakingContract.staking(...params).then(res=>{
 
 ##### getProposal-查询提案
 
+入参：
+
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
 |proposalID |String |必选| 提案ID|
+
+返参： 列表
+
+|名称|类型|说明|
+|---|---|---|
+|无|String|json字符串|
+
 
 ##### listProposal-查询提案列表
 
+入参：
+
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
 无
 
+返参： 列表
+
+|名称|类型|说明|
+|---|---|---|
+|无|String|json字符串|
+
 ##### getTallyResult-查询提案结果
+
+入参：
 
 | 参数名 |类型|属性|参数说明|
 |proposalID |String |必选| 提案ID|
 
+返参： 列表
+
+|名称|类型|说明|
+|---|---|---|
+|无|String|json字符串|
+
 ##### getActiveVersion-查询节点的链生效版本
+
+入参：
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
 无
+
+返参： 列表
+
+|名称|类型|说明|
+|---|---|---|
+|无|String|json字符串|
 
 ##### getProgramVersion-查询节点代码版本
 
+入参：
+
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
 无
+
+返参： 列表
+
+|名称|类型|说明|
+|---|---|---|
+|无|String|json字符串|
 
 ##### listParam-查询可治理参数列表
 
+入参：
+
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
 无
+
+返参： 列表
+
+|名称|类型|说明|
+|---|---|---|
+|无|String|json字符串|
 
 
 #### RestrictingPlanContract
@@ -379,11 +520,23 @@ web3.stakingContract.staking(...params).then(res=>{
 |account|String  |必选|锁仓释放到账账户|
 |Plan|Array  |必选|[{Epoch:Number,Amount:Number}],(Epoch：表示结算周期的倍数。Amount：表示目标区块上待释放的金额|
 
+
 ##### getRestrictingInfo-获取锁仓信息
+
+入参：
 
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
 |account|String  |必选|锁仓释放到账账户|
+
+返参：
+
+| 名称    | 类型            | 说明                                                         |
+| ------- | --------------- | ------------------------------------------------------------ |
+| balance | *big.Int(bytes) | 锁仓余额                                                     |
+| debt    | *big.Int(bytes) | symbol为 true，debt 表示欠释放的款项，为 false，debt 表示可抵扣释放的金额 |
+| symbol  | bool            | debt 的符号                                                  |
+| info    | bytes           | 锁仓分录信息，json数组：[{"blockNumber":"","amount":""},...,{"blockNumber":"","amount":""}]。其中：<br/>blockNumber：\*big.Int，释放区块高度<br/>amount：\*big.Int，释放金额 |
 
 
 #### SlashContract
@@ -399,11 +552,19 @@ web3.stakingContract.staking(...params).then(res=>{
 
 ##### checkDuplicateSign-查询接口是否已经被举报多签
 
+入参：
+
 | 参数名 |类型|属性|参数说明|
 | :------: |:------: |:------: | :------: |
 |typ|String  |必选|代表双签类型, 1：prepare，2：viewChange|
 |addr|String  |必选|举报的节点地址|
 |blockNumber|Number  |必选|多签的块高|
+
+返参：
+
+| 类型   | 描述           |
+| ------ | -------------- |
+| 16进制 | 举报的交易Hash |
 
 ### web3
 
