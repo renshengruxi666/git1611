@@ -621,5 +621,5 @@ web3.stakingContract.staking(stakingParams).then(res=>{
 
 ----
 
-### web3 eth相关 (标准JSON RPC )
+### web3-eth相关-标准json-rpc
 - api的使用请参考[web3j github](https://github.com/ethereum/wiki/wiki/JavaScript-API)
